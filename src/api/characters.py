@@ -30,6 +30,7 @@ def get_character(id: int):
     if id not in db.characters:
         raise HTTPException(status_code=404, detail="movie not found.")
 
+    # get character information
     character = db.characters[id]
 
     name = character["name"]
@@ -42,8 +43,8 @@ def get_character(id: int):
 
     conversations = db.conversations[movie_id]
     lines = db.lines[movie_id]
-    # print(lines)
 
+    # for conversation look up lines shared with other_characters
     for convo in conversations:
         if convo["character1_id"] == id:
             char = convo["character2_id"] # get id for 2nd character
@@ -60,6 +61,7 @@ def get_character(id: int):
                 other_characters[char] = 0
             other_characters[char] += total_lines
 
+    # organize lines shared
     top_conversation = []
     for other_id in other_characters:
         other_char = db.characters[other_id]
@@ -70,6 +72,7 @@ def get_character(id: int):
                 "number_of_lines_together":other_characters[other_id]
               }
         top_conversation.append(info)
+        
     sorted_convos = sorted(top_conversation, key=lambda x: (x["number_of_lines_together"], x["character"], x["character_id"]), reverse=True)
 
     json = {

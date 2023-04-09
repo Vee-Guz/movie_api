@@ -29,17 +29,9 @@ with open("characters.csv", mode="r", encoding="utf8") as csv_file:
                                             "gender": (gender[1] or None),
                                             "age": age[1]
                                         }
-    # sort characters by their name
-    # characters = sorted(characters.items(), key=lambda x: x[1]["name"])
     
 
 with open("conversations.csv", mode="r", encoding="utf8") as csv_file:
-    # conversation_id,character1_id,character2_id,movie_id
-    # need how many line a character shares with another character -- identify coversation_id, use coversation id to look at lines, count total number of lines spoken for each coversation
-    # for every coversation
-    #   if character id 1 does not exists, then create in dict
-    # {"movie_id": {"5015": [coversation_id1, ...], "5043"}}
-    
     conversations = {}
     for row in csv.DictReader(csv_file, skipinitialspace=True):
         (conversation_id,character1_id,character2_id,movie_id) = row.items()
@@ -52,15 +44,9 @@ with open("conversations.csv", mode="r", encoding="utf8") as csv_file:
         if movie not in conversations:
             conversations[movie] = []
         conversations[movie].append(info)
-        
-    # conversations = [
-    #     {k: v for k, v in row.items()}
-    #     for row in csv.DictReader(csv_file, skipinitialspace=True)
-    # ]
 
 
 with open("lines.csv", mode="r", encoding="utf8") as csv_file:
-    # line_id,character_id,movie_id,conversation_id,line_sort,line_text
     lines = {}
     for row in csv.DictReader(csv_file, skipinitialspace=True):
         (line_id,character_id,movie_id,conversation_id,line_sort,line_text) = row.items()
@@ -74,8 +60,4 @@ with open("lines.csv", mode="r", encoding="utf8") as csv_file:
         if char not in lines[movie][convo]:
             lines[movie][convo][char] = 0
         lines[movie][convo][char] += 1
-    
-    # lines = [
-    #     {k: v for k, v in row.items()}
-    #     for row in csv.DictReader(csv_file, skipinitialspace=True)
-    # ]
+
