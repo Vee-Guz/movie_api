@@ -149,12 +149,11 @@ def list_characters(
     if len(sorted_characters) < limit:
         limit = len(sorted_characters)
 
+    if offset > len(sorted_characters):
+        offset = len(sorted_characters)
+
     limited_characters = []
     for i in range(offset, limit, 1):
-        # if name != "" and (sorted_characters[i]["character"].lower() == name):
-        #     limited_characters.append(sorted_characters[i])
-        # else:
-        #     limited_characters.append(sorted_characters[i])
         limited_characters.append(sorted_characters[i])
     
     return limited_characters
