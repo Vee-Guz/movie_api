@@ -1,0 +1,56 @@
+[
+    {
+        "character_id": 172,
+        "character": "SECRET SERVICE AGENT",
+        "movie": "air force one",
+        "number_of_lines": 4
+    },
+    {
+        "character_id": 173,
+        "character": "SECRETARY",
+        "movie": "air force one",
+        "number_of_lines": 5
+    },
+    {
+        "character_id": 175,
+        "character": "SWITCHBOARD",
+        "movie": "air force one",
+        "number_of_lines": 6
+    },
+    {
+        "character_id": 177,
+        "character": "V.P. CHANDLER",
+        "movie": "air force one",
+        "number_of_lines": 16
+    },
+    {
+        "character_id": 196,
+        "character": "CAREY",
+        "movie": "airplane!",
+        "number_of_lines": 4
+    },
+    {
+        "character_id": 197,
+        "character": "DR. RUMACK",
+        "movie": "airplane!",
+        "number_of_lines": 24
+    },
+    {
+        "character_id": 198,
+        "character": "ELAINE",
+        "movie": "airplane!",
+        "number_of_lines": 50
+    },
+    {
+        "character_id": 201,
+        "character": "JACK",
+        "movie": "airplane!",
+        "number_of_lines": 5
+    },
+    {
+        "character_id": 203,
+        "character": "KRAMER",
+        "movie": "airplane!",
+        "number_of_lines": 5
+    }
+]

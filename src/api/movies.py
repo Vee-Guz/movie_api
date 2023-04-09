@@ -135,7 +135,7 @@ def list_movies(
 
 
     result = []
-    for i in range(offset, limit, 1):
+    for i in range(offset, limit + offset, 1):
         result.append(sorted_movies[i])
 
     return result

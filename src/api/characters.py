@@ -153,7 +153,7 @@ def list_characters(
         offset = len(sorted_characters)
 
     limited_characters = []
-    for i in range(offset, limit, 1):
+    for i in range(offset, limit + offset, 1):
         limited_characters.append(sorted_characters[i])
     
     return limited_characters
