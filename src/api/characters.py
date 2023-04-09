@@ -26,10 +26,11 @@ def get_character(id: int):
     * `number_of_lines_together`: The number of lines the character has with the
       originally queried character.
     """
-    character = (db.characters[id] or None)
 
-    if character is None:
+    if id not in db.characters:
         raise HTTPException(status_code=404, detail="movie not found.")
+
+    character = db.characters[id]
 
     name = character["name"]
     movie_id = character["movie_id"]
@@ -76,7 +77,7 @@ def get_character(id: int):
       "character": name,
       "movie": movie,
       "gender": gender,
-      "top_characters": sorted_convos
+      "top_conversations": sorted_convos
       }
 
     return json
@@ -116,8 +117,44 @@ def list_characters(
     maximum number of results to return. The `offset` query parameter specifies the
     number of results to skip before returning results.
     """
-    # sort characters by their name
-    
 
-    json = None
-    return json
+    total_characters = []
+    for character_id in db.characters:
+        character = db.characters[character_id]
+        char_name = character["name"]
+        movie_id = character["movie_id"]
+        movie = db.movies[movie_id]["movie_title"]
+
+        if name.lower() not in char_name.lower():
+            continue
+
+        num_lines = 0
+        conversations = db.conversations[movie_id]
+        for conv in conversations:
+            conv_id = conv["conversation_id"]
+            if (conv["character1_id"] == character_id) or (conv["character2_id"] == character_id):
+                lines = db.lines[movie_id]
+                char_lines = lines[conv_id]
+                num_lines += char_lines[character_id]
+        json = {"character_id": character_id, "character": char_name, "movie": movie, "number_of_lines": num_lines}
+        total_characters.append(json)
+
+    if sort == character_sort_options.character:
+        sorted_characters = sorted(total_characters, key= lambda x: x["character"])
+    elif sort == character_sort_options.movie:
+        sorted_characters = sorted(total_characters, key= lambda x: x["movie"])
+    else:
+        sorted_characters = sorted(total_characters, key= lambda x: x["number_of_lines"], reverse=True)
+
+    if len(sorted_characters) < limit:
+        limit = len(sorted_characters)
+
+    limited_characters = []
+    for i in range(offset, limit, 1):
+        # if name != "" and (sorted_characters[i]["character"].lower() == name):
+        #     limited_characters.append(sorted_characters[i])
+        # else:
+        #     limited_characters.append(sorted_characters[i])
+        limited_characters.append(sorted_characters[i])
+    
+    return limited_characters
