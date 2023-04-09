@@ -6,7 +6,7 @@ router = APIRouter()
 
 
 @router.get("/characters/{id}", tags=["characters"])
-def get_character(id: str):
+def get_character(id: int):
     """
     This endpoint returns a single character by its identifier. For each character
     it returns:
@@ -26,14 +26,58 @@ def get_character(id: str):
     * `number_of_lines_together`: The number of lines the character has with the
       originally queried character.
     """
-    for character in db.characters:
-        if character["character_id"] == id:
-            print("character found")
+    character = (db.characters[id] or None)
 
-    json = None
-
-    if json is None:
+    if character is None:
         raise HTTPException(status_code=404, detail="movie not found.")
+
+    name = character["name"]
+    movie_id = character["movie_id"]
+    movie = db.movies[movie_id]["movie_title"]
+    gender = character["gender"]
+
+    # top conversation
+    other_characters = {}
+
+    conversations = db.conversations[movie_id]
+    lines = db.lines[movie_id]
+    # print(lines)
+
+    for convo in conversations:
+        if convo["character1_id"] == id:
+            char = convo["character2_id"] # get id for 2nd character
+            num_lines = lines[convo["conversation_id"]]
+            total_lines = num_lines[id] + num_lines[char]
+            if char not in other_characters:
+                other_characters[char] = 0
+            other_characters[char] += total_lines
+        if convo["character2_id"] == id:
+            char = convo["character1_id"] # get id for 2nd character
+            num_lines = lines[convo["conversation_id"]]
+            total_lines = num_lines[id] + num_lines[char]
+            if char not in other_characters:
+                other_characters[char] = 0
+            other_characters[char] += total_lines
+
+    top_conversation = []
+    for other_id in other_characters:
+        other_char = db.characters[other_id]
+        info = {
+                "character_id":other_id,
+                "character":other_char["name"],
+                "gender":other_char["gender"],
+                "number_of_lines_together":other_characters[other_id]
+              }
+        top_conversation.append(info)
+    sorted_convos = sorted(top_conversation, key=lambda x: (x["number_of_lines_together"], x["character"], x["character_id"]), reverse=True)
+
+    json = {
+      "character_id": id,
+      "character": name,
+      "movie": movie,
+      "gender": gender,
+      "top_characters": sorted_convos
+      }
 
     return json
 
@@ -72,6 +116,8 @@ def list_characters(
     maximum number of results to return. The `offset` query parameter specifies the
     number of results to skip before returning results.
     """
+    # sort characters by their name
+    
 
     json = None
     return json
