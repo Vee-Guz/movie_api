@@ -1,0 +1,23 @@
+[
+    {
+        "movie_id": 238,
+        "movie_title": "all about eve",
+        "year": "1950",
+        "imdb_rating": 8.5,
+        "imdb_votes": 35597
+    },
+    {
+        "movie_id": 239,
+        "movie_title": "all the president's men",
+        "year": "1976",
+        "imdb_rating": 8.0,
+        "imdb_votes": 32717
+    },
+    {
+        "movie_id": 243,
+        "movie_title": "annie hall",
+        "year": "1977",
+        "imdb_rating": 8.3,
+        "imdb_votes": 66781
+    }
+]

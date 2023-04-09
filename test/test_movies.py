@@ -34,6 +34,28 @@ def test_sort_filter():
         assert response.json() == json.load(f)
 
 
+def test_sort_filter_2():
+    response = client.get("/movies/?name=all&limit=3&offset=0&sort=year")
+    assert response.status_code == 200
+
+    with open(
+        "test/movies/movies-name=all&limit=3&offset=0&sort=year.json",
+        encoding="utf-8",
+    ) as f:
+        assert response.json() == json.load(f)
+
+
+def test_sort_filter_3():
+    response = client.get("/movies/?limit=1&offset=50")
+    assert response.status_code == 200
+
+    with open(
+        "test/movies/movies-limit=1&offset=50.json",
+        encoding="utf-8",
+    ) as f:
+        assert response.json() == json.load(f)
+
+
 def test_404():
     response = client.get("/movies/1")
     assert response.status_code == 404
