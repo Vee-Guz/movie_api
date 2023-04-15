@@ -1,8 +1,28 @@
 from fastapi import APIRouter, HTTPException
 from enum import Enum
+from collections import Counter
+
+from fastapi.params import Query
 from src import database as db
 
 router = APIRouter()
+
+
+def get_top_conv_characters(character):
+    c_id = character.id
+    movie_id = character.movie_id
+    all_convs = filter(
+        lambda conv: conv.movie_id == movie_id
+        and (conv.c1_id == c_id or conv.c2_id == c_id),
+        db.conversations.values(),
+    )
+    line_counts = Counter()
+
+    for conv in all_convs:
+        other_id = conv.c2_id if conv.c1_id == c_id else conv.c1_id
+        line_counts[other_id] += conv.num_lines
+
+    return line_counts.most_common()
 
 
 @router.get("/characters/{id}", tags=["characters"])
@@ -27,63 +47,28 @@ def get_character(id: int):
       originally queried character.
     """
 
-    if id not in db.characters:
-        raise HTTPException(status_code=404, detail="movie not found.")
+    character = db.characters.get(id)
 
-    # get character information
-    character = db.characters[id]
+    if character:
+        movie = db.movies.get(character.movie_id)
+        result = {
+            "character_id": character.id,
+            "character": character.name,
+            "movie": movie and movie.title,
+            "gender": character.gender,
+            "top_conversations": (
+                {
+                    "character_id": other_id,
+                    "character": db.characters[other_id].name,
+                    "gender": db.characters[other_id].gender,
+                    "number_of_lines_together": lines,
+                }
+                for other_id, lines in get_top_conv_characters(character)
+            ),
+        }
+        return result
 
-    name = character["name"]
-    movie_id = character["movie_id"]
-    movie = db.movies[movie_id]["movie_title"]
-    gender = character["gender"]
-
-    # top conversation
-    other_characters = {}
-
-    conversations = db.conversations[movie_id]
-    lines = db.lines[movie_id]
-
-    # for conversation look up lines shared with other_characters
-    for convo in conversations:
-        if convo["character1_id"] == id:
-            char = convo["character2_id"] # get id for 2nd character
-            num_lines = lines[convo["conversation_id"]]
-            total_lines = num_lines[id] + num_lines[char]
-            if char not in other_characters:
-                other_characters[char] = 0
-            other_characters[char] += total_lines
-        if convo["character2_id"] == id:
-            char = convo["character1_id"] # get id for 2nd character
-            num_lines = lines[convo["conversation_id"]]
-            total_lines = num_lines[id] + num_lines[char]
-            if char not in other_characters:
-                other_characters[char] = 0
-            other_characters[char] += total_lines
-
-    # organize lines shared
-    top_conversation = []
-    for other_id in other_characters:
-        other_char = db.characters[other_id]
-        info = {
-                "character_id":other_id,
-                "character":other_char["name"],
-                "gender":other_char["gender"],
-                "number_of_lines_together":other_characters[other_id]
-              }
-        top_conversation.append(info)
-        
-    sorted_convos = sorted(top_conversation, key=lambda x: (x["number_of_lines_together"], x["character"], x["character_id"]), reverse=True)
-
-    json = {
-      "character_id": id,
-      "character": name,
-      "movie": movie,
-      "gender": gender,
-      "top_conversations": sorted_convos
-      }
-
-    return json
+    raise HTTPException(status_code=404, detail="character not found.")
 
 
 class character_sort_options(str, Enum):
@@ -95,8 +80,8 @@ class character_sort_options(str, Enum):
 @router.get("/characters/", tags=["characters"])
 def list_characters(
     name: str = "",
-    limit: int = 50,
-    offset: int = 0,
+    limit: int = Query(50, ge=1, le=250),
+    offset: int = Query(0, ge=0),
     sort: character_sort_options = character_sort_options.character,
 ):
     """
@@ -121,42 +106,35 @@ def list_characters(
     number of results to skip before returning results.
     """
 
-    total_characters = []
-    for character_id in db.characters:
-        character = db.characters[character_id]
-        char_name = character["name"]
-        movie_id = character["movie_id"]
-        movie = db.movies[movie_id]["movie_title"]
+    if name:
 
-        if name.lower() not in char_name.lower():
-            continue
+        def filter_fn(c):
+            return c.name and name.upper() in c.name
 
-        num_lines = 0
-        conversations = db.conversations[movie_id]
-        for conv in conversations:
-            conv_id = conv["conversation_id"]
-            if (conv["character1_id"] == character_id) or (conv["character2_id"] == character_id):
-                lines = db.lines[movie_id]
-                char_lines = lines[conv_id]
-                num_lines += char_lines[character_id]
-        json = {"character_id": character_id, "character": char_name, "movie": movie, "number_of_lines": num_lines}
-        total_characters.append(json)
+    else:
+
+        def filter_fn(_):
+            return True
+
+    items = list(filter(filter_fn, db.characters.values()))
+
+    def none_last(x, reverse=False):
+        return (x is None) ^ reverse, x
 
     if sort == character_sort_options.character:
-        sorted_characters = sorted(total_characters, key= lambda x: x["character"])
+        items.sort(key=lambda c: none_last(c.name))
     elif sort == character_sort_options.movie:
-        sorted_characters = sorted(total_characters, key= lambda x: x["movie"])
-    else:
-        sorted_characters = sorted(total_characters, key= lambda x: x["number_of_lines"], reverse=True)
+        items.sort(key=lambda c: none_last(db.movies[c.movie_id].title))
+    elif sort == character_sort_options.number_of_lines:
+        items.sort(key=lambda c: none_last(c.num_lines, True), reverse=True)
 
-    if len(sorted_characters) < limit:
-        limit = len(sorted_characters)
-
-    if offset > len(sorted_characters):
-        offset = len(sorted_characters)
-
-    limited_characters = []
-    for i in range(offset, limit + offset, 1):
-        limited_characters.append(sorted_characters[i])
-    
-    return limited_characters
+    json = (
+        {
+            "character_id": c.id,
+            "character": c.name,
+            "movie": db.movies[c.movie_id].title,
+            "number_of_lines": c.num_lines,
+        }
+        for c in items[offset : offset + limit]
+    )
+    return json
