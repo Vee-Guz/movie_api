@@ -99,3 +99,36 @@ def list_lines(
     return lines[offset: offset + limit]
 
 
+@router.get("/lines/line-sort/{conv_id}", tags=["lines"])
+def sort_conv_lines(conv_id: int):
+    """
+    This endpoint returns all the line_text in a conversation in the order spoken. For each line it returns:
+    * `line_id`: the internal id of the line.
+    * `conversation_id`: the conversation id representing the conversation where the line is spoken.
+    * `movie_id`: the movie_id represents the movie in which the line is spoken.
+    * `line_sort`: The order number the line is spoken.
+    * `character`: character name that says the line.
+    * `line_text`: the line text.
+    """
+
+    conv = db.conversations.get(conv_id)
+
+    conv_lines = []
+    if conv:
+        sorted_line_ids = sorted(conv.line_ids)
+
+        json = (
+            {
+                "line_id": line_id,
+                "conversation_id": db.lines[line_id].conv_id,
+                "movie_id":  db.lines[line_id].movie_id,
+                "line_sort": db.lines[line_id].line_sort,
+                "character": db.characters[db.lines[line_id].c_id].name,
+                "line_text": db.lines[line_id].line_text
+            }
+            for line_id in sorted_line_ids
+        )
+
+        return json
+
+    raise HTTPException(status_code=404, detail="conversation not found.")

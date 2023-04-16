@@ -67,6 +67,23 @@ def test_sort_filter_3():
         assert response.json() == json.load(f)
 
 
+def test_sort_conv_lines():
+    response = client.get(
+        "/lines/line-sort/40700"
+    )
+    assert response.status_code == 200
+
+    with open(
+        "test/lines/lines-line-sort-40700.json",
+        encoding="utf-8",
+    ) as f:
+        assert response.json() == json.load(f)
+
+
 def test_404():
     response = client.get("/lines/400")
+    assert response.status_code == 404
+
+def test_2_404():
+    response = client.get("/lines/line-sort/100001")
     assert response.status_code == 404

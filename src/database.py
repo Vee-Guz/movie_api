@@ -44,6 +44,7 @@ with open("conversations.csv", mode="r", encoding="utf8") as csv_file:
             try_parse(int, row["character2_id"]),
             try_parse(int, row["movie_id"]),
             0,
+            []
         )
         conversations[conv.id] = conv
 
@@ -66,3 +67,4 @@ with open("lines.csv", mode="r", encoding="utf8") as csv_file:
         conv = conversations.get(line.conv_id)
         if conv:
             conv.num_lines += 1
+            conv.line_ids.append(line.id)

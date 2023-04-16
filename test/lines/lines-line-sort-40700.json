@@ -1,0 +1,34 @@
+[
+    {
+        "line_id": 119595,
+        "conversation_id": 40700,
+        "movie_id": 289,
+        "line_sort": 1,
+        "character": "NICKY",
+        "line_text": "You know havin' some fun with it shit like that."
+    },
+    {
+        "line_id": 119596,
+        "conversation_id": 40700,
+        "movie_id": 289,
+        "line_sort": 2,
+        "character": "ACE",
+        "line_text": "Where the hell did you learn how to deal?"
+    },
+    {
+        "line_id": 119597,
+        "conversation_id": 40700,
+        "movie_id": 289,
+        "line_sort": 3,
+        "character": "NICKY",
+        "line_text": "He bet like a fuckin' brain surgeon."
+    },
+    {
+        "line_id": 119598,
+        "conversation_id": 40700,
+        "movie_id": 289,
+        "line_sort": 4,
+        "character": "ACE",
+        "line_text": "Place the checks properly. That's the way you do it."
+    }
+]
