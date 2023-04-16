@@ -1,6 +1,7 @@
 from fastapi import APIRouter, HTTPException
 from enum import Enum
 from src import database as db
+from fastapi.params import Query
 
 router = APIRouter()
 
@@ -32,15 +33,69 @@ def get_lines(line_id: int):
 
     raise HTTPException(status_code=404, detail="line not found.")
 
-# API 1
-# One of the calls must reference the characters speaking the line by name.
-# return all lines from a conversation in a movie in the order spoken
+# class line_sort_options(str, Enum):
+#     line_id = "line_id"
+#     movie_id = "movie_id"
+#     conversation_id = "conversation_id"
 
-# /lines/{id} - return
+
+@router.get("/lines/", tags=["lines"])
+def list_lines(
+    movie_id: int = None,
+    conversation_id: int = None,
+    limit: int = Query(50, ge=1, le=250),
+    offset: int = Query(0, ge=0),
+    # sort: line_sort_options = line_sort_options.line_id,
+):
+    """
+    This endpoint returns a list of all the conversations. For each conversation it returns:
+    * `line_id`: the internal id of the line. Can be used to query the
+      `/lines/{line_id}` endpoint.
+    * `conversation_id`: the conversation id the line belongs to
+    * `movie_id`: The movie id the conversation is in.
+    * `character1_name`: The name of the 1st character that is a part of the conversation.
+    * `character2_name`: The name of the 2st character that is a part of the conversation.
+
+    # You can also sort the results by using the `sort` query parameter:
+    # * `line_id` - Sort by line_id, highest to lowest.
+    # * 'movie_id' - Sort by movie_id, highest to lowest.
+    # * 'conversation_id' - Sort by conversation_id, highest to lowest.
 
 
-# API 2
-# return all the coversation_ids (in a list) of a movie
+    You can filter for lines that belong to the movies by using the query parameter `movie_id` and 
+    lines that belong to a certain conversation by using the query parameter 'conversation_id'.
 
-# API 3
-# given the coversation_id return number of lines 
+    The `limit` and `offset` query
+    parameters are used for pagination. The `limit` query parameter specifies the
+    maximum number of results to return. The `offset` query parameter specifies the
+    number of results to skip before returning results.
+    """
+
+    lines = []
+
+    for line_id in db.lines:
+        line = db.lines[line_id]
+        
+        if movie_id is not None and movie_id != line.movie_id:
+            continue
+        if conversation_id is not None and conversation_id != line.conv_id:
+            continue
+
+        characters = []
+        characters.append(db.conversations[line.conv_id].c1_id)
+        characters.append(db.conversations[line.conv_id].c2_id)
+        sort_char_id = sorted(characters)
+
+        result = {
+            "line_id": line_id,
+            "conversation_id": line.conv_id,
+            "movie_id": line.movie_id,
+            "character1_name": db.characters[sort_char_id[0]].name,
+            "character2_name": db.characters[sort_char_id[1]].name,
+        }
+
+        lines.append(result)
+
+    return lines[offset: offset + limit]
+
+

@@ -1,0 +1,352 @@
+[
+    {
+        "line_id": 16572,
+        "conversation_id": 1372,
+        "movie_id": 11,
+        "character1_name": "GIBBS",
+        "character2_name": "KORSHUNOV"
+    },
+    {
+        "line_id": 16573,
+        "conversation_id": 1372,
+        "movie_id": 11,
+        "character1_name": "GIBBS",
+        "character2_name": "KORSHUNOV"
+    },
+    {
+        "line_id": 16576,
+        "conversation_id": 1436,
+        "movie_id": 11,
+        "character1_name": "MARSHALL",
+        "character2_name": "SHEPHERD"
+    },
+    {
+        "line_id": 16577,
+        "conversation_id": 1436,
+        "movie_id": 11,
+        "character1_name": "MARSHALL",
+        "character2_name": "SHEPHERD"
+    },
+    {
+        "line_id": 16578,
+        "conversation_id": 1359,
+        "movie_id": 11,
+        "character1_name": "DOHERTY",
+        "character2_name": "MARSHALL"
+    },
+    {
+        "line_id": 16579,
+        "conversation_id": 1359,
+        "movie_id": 11,
+        "character1_name": "DOHERTY",
+        "character2_name": "MARSHALL"
+    },
+    {
+        "line_id": 16580,
+        "conversation_id": 1359,
+        "movie_id": 11,
+        "character1_name": "DOHERTY",
+        "character2_name": "MARSHALL"
+    },
+    {
+        "line_id": 16581,
+        "conversation_id": 1359,
+        "movie_id": 11,
+        "character1_name": "DOHERTY",
+        "character2_name": "MARSHALL"
+    },
+    {
+        "line_id": 16584,
+        "conversation_id": 1381,
+        "movie_id": 11,
+        "character1_name": "KORSHUNOV",
+        "character2_name": "MITCHELL"
+    },
+    {
+        "line_id": 16585,
+        "conversation_id": 1381,
+        "movie_id": 11,
+        "character1_name": "KORSHUNOV",
+        "character2_name": "MITCHELL"
+    },
+    {
+        "line_id": 16587,
+        "conversation_id": 1437,
+        "movie_id": 11,
+        "character1_name": "MARSHALL",
+        "character2_name": "SHEPHERD"
+    },
+    {
+        "line_id": 16588,
+        "conversation_id": 1437,
+        "movie_id": 11,
+        "character1_name": "MARSHALL",
+        "character2_name": "SHEPHERD"
+    },
+    {
+        "line_id": 16589,
+        "conversation_id": 1437,
+        "movie_id": 11,
+        "character1_name": "MARSHALL",
+        "character2_name": "SHEPHERD"
+    },
+    {
+        "line_id": 16590,
+        "conversation_id": 1360,
+        "movie_id": 11,
+        "character1_name": "DOHERTY",
+        "character2_name": "MARSHALL"
+    },
+    {
+        "line_id": 16591,
+        "conversation_id": 1360,
+        "movie_id": 11,
+        "character1_name": "DOHERTY",
+        "character2_name": "MARSHALL"
+    },
+    {
+        "line_id": 16592,
+        "conversation_id": 1438,
+        "movie_id": 11,
+        "character1_name": "MARSHALL",
+        "character2_name": "SHEPHERD"
+    },
+    {
+        "line_id": 16593,
+        "conversation_id": 1438,
+        "movie_id": 11,
+        "character1_name": "MARSHALL",
+        "character2_name": "SHEPHERD"
+    },
+    {
+        "line_id": 16594,
+        "conversation_id": 1438,
+        "movie_id": 11,
+        "character1_name": "MARSHALL",
+        "character2_name": "SHEPHERD"
+    },
+    {
+        "line_id": 16595,
+        "conversation_id": 1438,
+        "movie_id": 11,
+        "character1_name": "MARSHALL",
+        "character2_name": "SHEPHERD"
+    },
+    {
+        "line_id": 16596,
+        "conversation_id": 1438,
+        "movie_id": 11,
+        "character1_name": "MARSHALL",
+        "character2_name": "SHEPHERD"
+    },
+    {
+        "line_id": 16597,
+        "conversation_id": 1438,
+        "movie_id": 11,
+        "character1_name": "MARSHALL",
+        "character2_name": "SHEPHERD"
+    },
+    {
+        "line_id": 16603,
+        "conversation_id": 1439,
+        "movie_id": 11,
+        "character1_name": "MARSHALL",
+        "character2_name": "SHEPHERD"
+    },
+    {
+        "line_id": 16604,
+        "conversation_id": 1439,
+        "movie_id": 11,
+        "character1_name": "MARSHALL",
+        "character2_name": "SHEPHERD"
+    },
+    {
+        "line_id": 16605,
+        "conversation_id": 1439,
+        "movie_id": 11,
+        "character1_name": "MARSHALL",
+        "character2_name": "SHEPHERD"
+    },
+    {
+        "line_id": 16608,
+        "conversation_id": 1382,
+        "movie_id": 11,
+        "character1_name": "KORSHUNOV",
+        "character2_name": "MITCHELL"
+    },
+    {
+        "line_id": 16609,
+        "conversation_id": 1382,
+        "movie_id": 11,
+        "character1_name": "KORSHUNOV",
+        "character2_name": "MITCHELL"
+    },
+    {
+        "line_id": 16610,
+        "conversation_id": 1382,
+        "movie_id": 11,
+        "character1_name": "KORSHUNOV",
+        "character2_name": "MITCHELL"
+    },
+    {
+        "line_id": 16611,
+        "conversation_id": 1382,
+        "movie_id": 11,
+        "character1_name": "KORSHUNOV",
+        "character2_name": "MITCHELL"
+    },
+    {
+        "line_id": 16612,
+        "conversation_id": 1382,
+        "movie_id": 11,
+        "character1_name": "KORSHUNOV",
+        "character2_name": "MITCHELL"
+    },
+    {
+        "line_id": 16613,
+        "conversation_id": 1383,
+        "movie_id": 11,
+        "character1_name": "KORSHUNOV",
+        "character2_name": "MITCHELL"
+    },
+    {
+        "line_id": 16614,
+        "conversation_id": 1383,
+        "movie_id": 11,
+        "character1_name": "KORSHUNOV",
+        "character2_name": "MITCHELL"
+    },
+    {
+        "line_id": 16616,
+        "conversation_id": 1384,
+        "movie_id": 11,
+        "character1_name": "KORSHUNOV",
+        "character2_name": "MITCHELL"
+    },
+    {
+        "line_id": 16617,
+        "conversation_id": 1384,
+        "movie_id": 11,
+        "character1_name": "KORSHUNOV",
+        "character2_name": "MITCHELL"
+    },
+    {
+        "line_id": 16632,
+        "conversation_id": 1440,
+        "movie_id": 11,
+        "character1_name": "MARSHALL",
+        "character2_name": "SHEPHERD"
+    },
+    {
+        "line_id": 16633,
+        "conversation_id": 1440,
+        "movie_id": 11,
+        "character1_name": "MARSHALL",
+        "character2_name": "SHEPHERD"
+    },
+    {
+        "line_id": 16634,
+        "conversation_id": 1441,
+        "movie_id": 11,
+        "character1_name": "MARSHALL",
+        "character2_name": "SHEPHERD"
+    },
+    {
+        "line_id": 16635,
+        "conversation_id": 1441,
+        "movie_id": 11,
+        "character1_name": "MARSHALL",
+        "character2_name": "SHEPHERD"
+    },
+    {
+        "line_id": 16647,
+        "conversation_id": 1442,
+        "movie_id": 11,
+        "character1_name": "MARSHALL",
+        "character2_name": "SHEPHERD"
+    },
+    {
+        "line_id": 16648,
+        "conversation_id": 1442,
+        "movie_id": 11,
+        "character1_name": "MARSHALL",
+        "character2_name": "SHEPHERD"
+    },
+    {
+        "line_id": 16651,
+        "conversation_id": 1322,
+        "movie_id": 11,
+        "character1_name": "ALICE",
+        "character2_name": "ROSE"
+    },
+    {
+        "line_id": 16652,
+        "conversation_id": 1322,
+        "movie_id": 11,
+        "character1_name": "ALICE",
+        "character2_name": "ROSE"
+    },
+    {
+        "line_id": 16653,
+        "conversation_id": 1322,
+        "movie_id": 11,
+        "character1_name": "ALICE",
+        "character2_name": "ROSE"
+    },
+    {
+        "line_id": 16656,
+        "conversation_id": 1323,
+        "movie_id": 11,
+        "character1_name": "ALICE",
+        "character2_name": "ROSE"
+    },
+    {
+        "line_id": 16657,
+        "conversation_id": 1323,
+        "movie_id": 11,
+        "character1_name": "ALICE",
+        "character2_name": "ROSE"
+    },
+    {
+        "line_id": 16658,
+        "conversation_id": 1323,
+        "movie_id": 11,
+        "character1_name": "ALICE",
+        "character2_name": "ROSE"
+    },
+    {
+        "line_id": 16660,
+        "conversation_id": 1324,
+        "movie_id": 11,
+        "character1_name": "ALICE",
+        "character2_name": "ROSE"
+    },
+    {
+        "line_id": 16661,
+        "conversation_id": 1324,
+        "movie_id": 11,
+        "character1_name": "ALICE",
+        "character2_name": "ROSE"
+    },
+    {
+        "line_id": 16662,
+        "conversation_id": 1324,
+        "movie_id": 11,
+        "character1_name": "ALICE",
+        "character2_name": "ROSE"
+    },
+    {
+        "line_id": 16663,
+        "conversation_id": 1324,
+        "movie_id": 11,
+        "character1_name": "ALICE",
+        "character2_name": "ROSE"
+    },
+    {
+        "line_id": 16664,
+        "conversation_id": 1324,
+        "movie_id": 11,
+        "character1_name": "ALICE",
+        "character2_name": "ROSE"
+    }
+]
