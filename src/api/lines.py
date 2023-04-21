@@ -113,7 +113,6 @@ def sort_conv_lines(conv_id: int):
 
     conv = db.conversations.get(conv_id)
 
-    conv_lines = []
     if conv:
         sorted_line_ids = sorted(conv.line_ids)
 
