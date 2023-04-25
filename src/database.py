@@ -116,9 +116,7 @@ def upload_new_conversation():
         "conversation_id", 
         "character1_id", 
         "character2_id", 
-        "movie_id", 
-        "num_lines", 
-        "line_ids"
+        "movie_id"
         ]
     )
     csv_writer.writeheader()
@@ -162,24 +160,18 @@ for row in csv.DictReader(io.StringIO(lines_csv), skipinitialspace=True):
         conv.line_ids.append(line.id)
 
     lines_ls.append(row)
-
-# add completed conversations to csv file
-# for conv in conversations:
-#     result = {
-#         "conversation_id": conv.id,
-#         "character1_id": conv.c1_id,
-#         "character2_id": conv.c2_id,
-#         "movie_id": conv.movie_id,
-#         "num_lines": conv.num_lines,
-#         "line_ids": conv.line_ids
-#         }
-#     conversations_ls.append(result)
     
 
 def upload_new_line():
     output = io.StringIO()
     csv_writer = csv.DictWriter(
-        output, fieldnames=["line_id", "character_id", "movie_id", "conversation_id", "line_sort", "line_text"]
+        output, fieldnames=[
+        "line_id", 
+        "character_id", 
+        "movie_id", 
+        "conversation_id", 
+        "line_sort", 
+        "line_text"]
     )
     csv_writer.writeheader()
     csv_writer.writerows(lines_ls)

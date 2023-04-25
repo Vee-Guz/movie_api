@@ -57,6 +57,14 @@ def add_conversation(movie_id: int, conversation: ConversationJson):
     # add to conversations dictionary
     db.conversations[new_conv_id] = new_conv
 
+    db.conversations_ls.append(
+        {
+            "conversation_id": db.conversations[new_conv_id].id,
+            "character1_id": db.conversations[new_conv_id].c1_id,
+            "character2_id": db.conversations[new_conv_id].c2_id,
+            "movie_id": db.conversations[new_conv_id].movie_id
+        })
+
     # get id from last line added
     ln_id = int(db.lines_ls[-1]["line_id"])
     new_ln_id = ln_id + 1
@@ -95,15 +103,7 @@ def add_conversation(movie_id: int, conversation: ConversationJson):
 
 
     ## add to lists (will be written into the files)
-    db.conversations_ls.append(
-        {
-            "conversation_id": db.conversations[new_conv_id].id,
-            "character1_id": db.conversations[new_conv_id].c1_id,
-            "character2_id": db.conversations[new_conv_id].c2_id,
-            "movie_id": db.conversations[new_conv_id].movie_id,
-            "num_lines": db.conversations[new_conv_id].num_lines,
-            "line_ids": db.conversations[new_conv_id].line_ids
-        })
+    
     
     db.upload_new_conversation()
     db.upload_new_line()
