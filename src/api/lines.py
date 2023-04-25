@@ -33,10 +33,10 @@ def get_lines(line_id: int):
 
     raise HTTPException(status_code=404, detail="line not found.")
 
-# class line_sort_options(str, Enum):
-#     line_id = "line_id"
-#     movie_id = "movie_id"
-#     conversation_id = "conversation_id"
+class line_sort_options(str, Enum):
+    line_id = "line_id"
+    movie_id = "movie_id"
+    conversation_id = "conversation_id"
 
 
 @router.get("/lines/", tags=["lines"])
@@ -45,7 +45,7 @@ def list_lines(
     conversation_id: int = None,
     limit: int = Query(50, ge=1, le=250),
     offset: int = Query(0, ge=0),
-    # sort: line_sort_options = line_sort_options.line_id,
+    sort: line_sort_options = line_sort_options.line_id,
 ):
     """
     This endpoint returns a list of all the conversations. For each conversation it returns:
@@ -58,7 +58,7 @@ def list_lines(
 
     # You can also sort the results by using the `sort` query parameter:
     # * `line_id` - Sort by line_id, highest to lowest.
-    # * 'movie_id' - Sort by movie_id, highest to lowest.
+    # * 'movie_id' - Sort by movie_id, lowest to highest.
     # * 'conversation_id' - Sort by conversation_id, highest to lowest.
 
 
@@ -96,7 +96,14 @@ def list_lines(
 
         lines.append(result)
 
-    return lines[offset: offset + limit]
+    if sort == line_sort_options.line_id:
+        newlines = sorted(lines, key=lambda d: d['line_id'], reverse=True) 
+    elif sort == line_sort_options.movie_id:
+        newlines = sorted(lines, key=lambda d: d['movie_id'])
+    elif sort == line_sort_options.conversation_id:
+        newlines = sorted(lines, key=lambda d: d['conversation_id'], reverse=True)
+
+    return newlines[offset: offset + limit]
 
 
 @router.get("/lines/line-sort/{conv_id}", tags=["lines"])
