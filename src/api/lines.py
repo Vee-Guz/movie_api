@@ -57,7 +57,7 @@ def list_lines(
     * `character2_name`: The name of the 2st character that is a part of the conversation.
 
     # You can also sort the results by using the `sort` query parameter:
-    # * `line_id` - Sort by line_id, highest to lowest.
+    # * `line_id` - Sort by line_id, lowest to highest.
     # * 'movie_id' - Sort by movie_id, lowest to highest.
     # * 'conversation_id' - Sort by conversation_id, highest to lowest.
 
@@ -97,7 +97,7 @@ def list_lines(
         lines.append(result)
 
     if sort == line_sort_options.line_id:
-        newlines = sorted(lines, key=lambda d: d['line_id'], reverse=True) 
+        newlines = sorted(lines, key=lambda d: d['line_id']) 
     elif sort == line_sort_options.movie_id:
         newlines = sorted(lines, key=lambda d: d['movie_id'])
     elif sort == line_sort_options.conversation_id:

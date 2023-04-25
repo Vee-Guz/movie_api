@@ -54,7 +54,7 @@ def test_sort_filter_3():
         assert response.json() == json.load(f)
 
 
-def test_sort_filter_3():
+def test_sort_filter_4():
     response = client.get(
         "/lines?conversation_id=189&limit=5&offset=1&movie_id=0"
     )

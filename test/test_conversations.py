@@ -54,12 +54,10 @@ def test_add_conversation():
 def test_lines_recently_added():
     # verify that the latest lines added are for the movie above and that 
     # the character_names match
-    response = client.get("lines/?sort=line_id")
+    response = client.get("lines/?sort=conversation_id")
     assert response.status_code == 200
-        
-        
+
     assert response.json()[0]["character1_name"] == "HEATHER"   # id: 3640
     assert response.json()[0]["character2_name"] == "JIM"       # id: 3642
     assert response.json()[0]["movie_id"] == 240
 
-# maybe error if characters do not exist for movie?
