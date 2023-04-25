@@ -65,6 +65,7 @@ def add_conversation(movie_id: int, conversation: ConversationJson):
             "movie_id": db.conversations[new_conv_id].movie_id
         })
 
+
     # get id from last line added
     ln_id = int(db.lines_ls[-1]["line_id"])
     new_ln_id = ln_id + 1
@@ -101,12 +102,7 @@ def add_conversation(movie_id: int, conversation: ConversationJson):
                 "line_text": new_ln.line_text
             })
 
-
-    ## add to lists (will be written into the files)
-    
     
     db.upload_new_conversation()
     db.upload_new_line()
-
-# adding a conversation that already exists? 
     
