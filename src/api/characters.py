@@ -69,38 +69,7 @@ def get_character(id: int):
             raise HTTPException(status_code=404, detail="character not found.")
         
         return result
-
-    # character = db.characters.get(id)
-
-    # if character:
-    #     movie = db.movies.get(character.movie_id)
-    #     result = {
-    #         "character_id": character.id,
-    #         "character": character.name,
-    #         "movie": movie and movie.title,
-    #         "gender": character.gender,
-    #         "top_conversations": (
-    #             {
-    #                 "character_id": other_id,
-    #                 "character": db.characters[other_id].name,
-    #                 "gender": db.characters[other_id].gender,
-    #                 "number_of_lines_together": lines,
-    #             }
-    #             for other_id, lines in get_top_conv_characters(character)
-    #         ),
-    #     }
-    #     return result
-
-    # raise HTTPException(status_code=404, detail="character not found.")
-
-    # get all conv
-    # select conv.character1_id as c1, conv.character2_id as c2, conv.conversation_id as id from conversations as conv where conv.character1_id = 4525 or conv.character2_id = 4525
-
-    # get num_lines_together for each character
-    # select conv.character1_id as c1, conv.character2_id as c2, count(*) num_lines_together from conversations as conv join lines on lines.conversation_id = conv.conversation_id where conv.character1_id = 5016 or conv.character2_id = 5016 group by c1, c2 order by num_lines_together DESC
-
-    #select conv.character1_id as c1, conv.character2_id as c2 from conversations as conv join characters on conv.character1_id = 4525 or conv.character2_id = 4525 join lines on lines.character_id = 4525 group by c1, c2
-
+    
 
 class character_sort_options(str, Enum):
     character = "character"
