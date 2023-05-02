@@ -80,43 +80,24 @@ def list_lines(
     """
 
     if sort == line_sort_options.line_id:
-        lines_txt = "select lines.line_id, lines.conversation_id, lines.movie_id, c1.name as character1_name, c2.name as character2_name\
-                    from lines\
-                    join conversations as conv on lines.conversation_id = conv.conversation_id\
-                    join characters as c1 on c1.character_id = conv.character1_id\
-                    join characters as c2 on c2.character_id = conv.character2_id\
-                    order by line_id asc \
-                    limit :limit offset :offset"
         order_by = db.lines.c.line_id
     elif sort == line_sort_options.movie_id:
-        lines_txt = "select lines.line_id, lines.conversation_id, lines.movie_id, c1.name as character1_name, c2.name as character2_name\
-                    from lines\
-                    join conversations as conv on lines.conversation_id = conv.conversation_id\
-                    join characters as c1 on c1.character_id = conv.character1_id\
-                    join characters as c2 on c2.character_id = conv.character2_id\
-                    order by movie_id asc, line_id asc"
         order_by = db.lines.c.movie_id
     elif sort == line_sort_options.conversation_id:
-        lines_txt = "select lines.line_id, lines.conversation_id, lines.movie_id, c1.name as character1_name, c2.name as character2_name\
-                    from lines\
-                    join conversations as conv on lines.conversation_id = conv.conversation_id\
-                    join characters as c1 on c1.character_id = conv.character1_id\
-                    join characters as c2 on c2.character_id = conv.character2_id\
-                    order by conversation_id desc, line_id asc"
         order_by = sqlalchemy.desc(db.lines.c.conversation_id)
     else:
         assert False
 
-    c1 = db.characters.alias("character1_name")
-    c2 = db.characters.alias("character2_name")
+    c1 = db.characters.alias("c1")
+    c2 = db.characters.alias("c2")
 
     stmt = (
         sqlalchemy.select(
             db.lines.c.line_id,
             db.lines.c.conversation_id,
             db.lines.c.movie_id,
-            c1.c.name,
-            c2.c.name
+            c1.c.name.label("character1_name"),
+            c2.c.name.label("character2_name")
         )
         .join(db.conversations, db.lines.c.conversation_id == db.conversations.c.conversation_id)
         .join(c1, c1.c.character_id == db.conversations.c.character1_id)
@@ -126,61 +107,30 @@ def list_lines(
         .order_by(order_by, db.lines.c.line_id)
     )
 
+    if movie_id is not None:
+        stmt = stmt.where(db.lines.c.movie_id == movie_id)
+
+    if conversation_id is not None:
+        stmt = stmt.where(db.conversations.c.conversation_id == conversation_id)
+
+
     with db.engine.connect() as conn:
         result = conn.execute(stmt)
         json = []
         for row in result:
-            print(row)
-            # json.append(
-            #     {
-            #         "movie_id": row.movie_id,
-            #         "movie_title": row.title,
-            #         "year": row.year,
-            #         "imdb_rating": row.imdb_rating,
-            #         "imdb_votes": row.imdb_votes,
-            #     }
-            # )
+            json.append(
+                {
+                    "line_id": row.line_id,
+                    "conversation_id": row.conversation_id,
+                    "movie_id": row.movie_id,
+                    "character1_name": row.character1_name,
+                    "character2_name": row.character2_name,
+
+                }
+            )
 
     return json
-        
     
-    
-
-    # return None
-    # lines = []
-
-    # for line_id in db.lines:
-    #     line = db.lines[line_id]
-        
-    #     if movie_id is not None and movie_id != line.movie_id:
-    #         continue
-    #     if conversation_id is not None and conversation_id != line.conv_id:
-    #         continue
-
-    #     characters = []
-    #     characters.append(db.conversations[line.conv_id].c1_id)
-    #     characters.append(db.conversations[line.conv_id].c2_id)
-    #     sort_char_id = sorted(characters)
-
-    #     result = {
-    #         "line_id": line_id,
-    #         "conversation_id": line.conv_id,
-    #         "movie_id": line.movie_id,
-    #         "character1_name": db.characters[sort_char_id[0]].name,
-    #         "character2_name": db.characters[sort_char_id[1]].name,
-    #     }
-
-    #     lines.append(result)
-
-    # if sort == line_sort_options.line_id:
-    #     newlines = sorted(lines, key=lambda d: d['line_id']) 
-    # elif sort == line_sort_options.movie_id:
-    #     newlines = sorted(lines, key=lambda d: d['movie_id'])
-    # elif sort == line_sort_options.conversation_id:
-    #     newlines = sorted(lines, key=lambda d: d['conversation_id'], reverse=True)
-
-    # return newlines[offset: offset + limit]
-
 
 @router.get("/line-sort/{conv_id}", tags=["lines"])
 def sort_conv_lines(conv_id: int):

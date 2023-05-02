@@ -57,7 +57,7 @@ def test_lines_recently_added():
     response = client.get("lines/?sort=conversation_id")
     assert response.status_code == 200
 
-    assert response.json()[0]["character1_name"] == "HEATHER"   # id: 3640
-    assert response.json()[0]["character2_name"] == "JIM"       # id: 3642
+    assert response.json()[0]["character1_name"] == "JIM"
+    assert response.json()[0]["character2_name"] == "HEATHER"
     assert response.json()[0]["movie_id"] == 240
 

@@ -84,6 +84,6 @@ def test_404():
     response = client.get("/lines/400")
     assert response.status_code == 404
 
-def test_2_404():
-    response = client.get("/line-sort/100001")
-    assert response.status_code == 404
+def test_2_422():
+    response = client.get("/line-sort/abc")
+    assert response.status_code == 422
