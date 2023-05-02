@@ -69,7 +69,7 @@ def test_sort_filter_4():
 
 def test_sort_conv_lines():
     response = client.get(
-        "/lines/line-sort/40700"
+        "/line-sort/40700"
     )
     assert response.status_code == 200
 
@@ -85,5 +85,5 @@ def test_404():
     assert response.status_code == 404
 
 def test_2_404():
-    response = client.get("/lines/line-sort/100001")
+    response = client.get("/line-sort/100001")
     assert response.status_code == 404
