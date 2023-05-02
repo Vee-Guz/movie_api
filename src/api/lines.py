@@ -17,7 +17,13 @@ def get_lines(line_id: int):
     * `line_text`: the line text.
 
     """
-    line_txt = "select line_id, movies.title as title, conversation_id, characters.name as name, line_text from lines join movies on movies.movie_id = lines.movie_id join characters on characters.character_id = lines.character_id where lines.line_id = :line_id"
+    line_txt = """
+    SELECT line_id, movies.title AS title, conversation_id, characters.name AS name, line_text 
+    FROM lines 
+    JOIN movies ON movies.movie_id = lines.movie_id 
+    JOIN characters ON characters.character_id = lines.character_id 
+    WHERE lines.line_id = :line_id
+    """
 
     result = None
 
@@ -144,7 +150,14 @@ def sort_conv_lines(conv_id: int):
     * `line_text`: the line text.
     """
 
-    conv_txt = "select line_id, conversation_id, movies.movie_id as movie_id, line_sort, characters.name as name, line_text from lines join movies on movies.movie_id = lines.movie_id join characters on characters.character_id = lines.character_id where lines.conversation_id = :id order by line_sort ASC"
+    conv_txt = """
+    SELECT line_id, conversation_id, movies.movie_id AS movie_id, line_sort, characters.name AS name, line_text 
+    FROM lines 
+    JOIN movies ON movies.movie_id = lines.movie_id 
+    JOIN characters ON characters.character_id = lines.character_id 
+    WHERE lines.conversation_id = :id 
+    ORDER BY line_sort ASC
+    """
 
     result = None
 

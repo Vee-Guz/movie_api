@@ -40,8 +40,19 @@ def add_conversation(movie_id: int, conversation: ConversationJson):
     The endpoint returns the id of the resulting conversation that was created.
     """
     try:
-        last_conv_txt = "SELECT conversation_id FROM conversations ORDER BY conversation_id DESC LIMIT 1"
-        last_line_txt = "select line_id from lines order by line_id desc limit 1"
+        last_conv_txt = """
+        SELECT conversation_id 
+        FROM conversations 
+        ORDER BY conversation_id DESC 
+        LIMIT 1
+        """
+
+        last_line_txt = """
+        SELECT line_id 
+        FROM lines 
+        ORDER BY line_id DESC 
+        LIMIT 1
+        """
 
         with db.engine.begin() as conn:
             # Add new conversation
@@ -52,9 +63,10 @@ def add_conversation(movie_id: int, conversation: ConversationJson):
             for id in conv_id:
                 new_conv_id = id.conversation_id + 1
 
-            new_conv_txt = "INSERT INTO conversations \
-                (conversation_id, character1_id, character2_id, movie_id) \
-                VALUES (:conv_id, :c1, :c2, :movie_id)"
+            new_conv_txt = """
+            INSERT INTO conversations (conversation_id, character1_id, character2_id, movie_id) 
+            VALUES (:conv_id, :c1, :c2, :movie_id)
+            """
 
             conn.execute(
                 sqlalchemy.text(new_conv_txt),
@@ -76,9 +88,10 @@ def add_conversation(movie_id: int, conversation: ConversationJson):
             line_sort = 1
 
             for line in conversation.lines:
-                new_line_txt = "INSERT INTO lines \
-                (line_id, character_id ,movie_id, conversation_id, line_sort, line_text) \
-                VALUES (:line_id, :character_id, :movie_id, :conversation_id, :line_sort, :line_text)"
+                new_line_txt = """
+                INSERT INTO lines (line_id, character_id ,movie_id, conversation_id, line_sort, line_text) 
+                VALUES (:line_id, :character_id, :movie_id, :conversation_id, :line_sort, :line_text)
+                """
 
                 conn.execute(
                 sqlalchemy.text(new_line_txt),

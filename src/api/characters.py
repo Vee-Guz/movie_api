@@ -31,8 +31,22 @@ def get_character(id: int):
       originally queried character.
     """
 
-    character_txt = "select c.character_id as id, c.name as name, movies.title as movie, c.gender as gender from characters as c join movies on movies.movie_id = c.movie_id where c.character_id = :id"
-    top_conv_text = "select c.character_id as id, c.name as name, c.gender as gender, count(*) num_lines_together from characters as c join conversations as conv on conv.character1_id = c.character_id or conv.character2_id = c.character_id join lines on conv.conversation_id = lines.conversation_id where (conv.character1_id = :id or conv.character2_id = :id) and c.character_id != :id group by c.character_id, c.name, c.gender order by num_lines_together desc"
+    character_txt = """
+    SELECT c.character_id AS id, c.name AS name, movies.title AS movie, c.gender AS gender 
+    FROM characters AS c 
+    JOIN movies ON movies.movie_id = c.movie_id 
+    WHERE c.character_id = :id
+    """
+
+    top_conv_text = """
+    SELECT c.character_id AS id, c.name AS name, c.gender AS gender, count(*) num_lines_together 
+    FROM characters AS c 
+    JOIN conversations AS conv ON conv.character1_id = c.character_id OR conv.character2_id = c.character_id 
+    JOIN lines ON conv.conversation_id = lines.conversation_id 
+    WHERE (conv.character1_id = :id OR conv.character2_id = :id) AND c.character_id != :id 
+    GROUP BY c.character_id, c.name, c.gender 
+    ORDER BY num_lines_together DESC
+    """
 
 
     with db.engine.connect() as conn:
@@ -107,11 +121,41 @@ def list_characters(
     """
 
     if sort == character_sort_options.character:
-        txt = "SELECT c.character_id As id, name, movies.title as title, COUNT(*) num_lines FROM characters AS c JOIN movies ON c.movie_id = movies.movie_id JOIN lines ON c.character_id = lines.character_id WHERE name ILIKE :name GROUP BY c.character_id, movies.title ORDER BY name ASC, c.character_id ASC  LIMIT :limit OFFSET :offset"
+        txt = """
+        SELECT c.character_id AS id, name, movies.title AS title, COUNT(*) num_lines 
+        FROM characters AS c 
+        JOIN movies ON c.movie_id = movies.movie_id 
+        JOIN lines ON c.character_id = lines.character_id 
+        WHERE name ILIKE :name 
+        GROUP BY c.character_id, movies.title 
+        ORDER BY name ASC, c.character_id ASC 
+        LIMIT :limit 
+        OFFSET :offset
+        """
     elif sort == character_sort_options.movie:
-        txt = "SELECT c.character_id As id, name, movies.title as title, COUNT(*) num_lines FROM characters AS c JOIN movies ON c.movie_id = movies.movie_id JOIN lines ON c.character_id = lines.character_id WHERE name ILIKE :name GROUP BY c.character_id, movies.title ORDER BY title ASC LIMIT :limit OFFSET :offset"
+        txt = """
+        SELECT c.character_id AS id, name, movies.title AS title, COUNT(*) num_lines 
+        FROM characters AS c 
+        JOIN movies ON c.movie_id = movies.movie_id 
+        JOIN lines ON c.character_id = lines.character_id 
+        WHERE name ILIKE :name 
+        GROUP BY c.character_id, movies.title 
+        ORDER BY title ASC 
+        LIMIT :limit 
+        OFFSET :offset
+        """
     elif sort == character_sort_options.number_of_lines:
-        txt = "SELECT c.character_id As id, name, movies.title as title, COUNT(*) num_lines FROM characters AS c JOIN movies ON c.movie_id = movies.movie_id JOIN lines ON c.character_id = lines.character_id WHERE name ILIKE :name GROUP BY c.character_id, movies.title ORDER BY num_lines DESC, title ASC LIMIT :limit OFFSET :offset"
+        txt = """
+        SELECT c.character_id AS id, name, movies.title AS title, COUNT(*) num_lines 
+        FROM characters AS c 
+        JOIN movies ON c.movie_id = movies.movie_id 
+        JOIN lines ON c.character_id = lines.character_id 
+        WHERE name ILIKE :name 
+        GROUP BY c.character_id, movies.title 
+        ORDER BY num_lines DESC, title ASC 
+        LIMIT :limit 
+        OFFSET :offset
+        """
 
     with db.engine.connect() as conn:
         result = conn.execute(

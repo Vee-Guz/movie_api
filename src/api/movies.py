@@ -24,14 +24,26 @@ def get_movie(movie_id: int):
 
     """
     # get movie
-    txt = "SELECT movie_id, title FROM movies WHERE movies.movie_id = :movie_id"
+    txt = """
+    SELECT movie_id, title 
+    FROM movies 
+    WHERE movies.movie_id = :movie_id
+    """
 
     # top characters 
-    txt_2 = "SELECT c.character_id AS id, c.name AS name, COUNT(*) num_lines FROM characters AS c JOIN lines ON c.character_id = lines.character_id WHERE c.movie_id = :movie_id GROUP BY c.character_id ORDER BY num_lines DESC LIMIT 5"
+    txt_2 = """
+    SELECT c.character_id AS id, c.name AS name, COUNT(*) num_lines
+    FROM characters AS c 
+    JOIN lines ON c.character_id = lines.character_id
+    WHERE c.movie_id = :movie_id
+    GROUP BY c.character_id
+    ORDER BY num_lines DESC
+    LIMIT 5
+    """
 
     with db.engine.connect() as conn:
-        result = conn.execute(sqlalchemy.text(txt), [{"movie_id": movie_id}])
-        result_2 = conn.execute(sqlalchemy.text(txt_2), [{"movie_id": movie_id}])
+        result = conn.execute(sqlalchemy.text(txt), [{"movie_id": movie_id}])   # movie info
+        result_2 = conn.execute(sqlalchemy.text(txt_2), [{"movie_id": movie_id}])   # top chars info
 
         movie_res = None
 
