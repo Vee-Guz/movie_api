@@ -1,6 +1,5 @@
 import csv
 import os
-from supabase import Client, create_client
 import dotenv
 import sqlalchemy
 
